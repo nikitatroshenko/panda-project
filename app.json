@@ -1,0 +1,5 @@
+{
+	"name": "Panda Project",
+	"description": "A project management system back-end. Contains REST endpoints for interaction with system.",
+	"addons": ["heroku-postgresql"]
+}
