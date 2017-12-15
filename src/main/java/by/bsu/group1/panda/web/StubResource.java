@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class StubResource {
 
-	@Value("panda.message.stub")
+	@Value("${panda.message.stub}")
 	private String stubMessage;
 
 	@RequestMapping("/")
