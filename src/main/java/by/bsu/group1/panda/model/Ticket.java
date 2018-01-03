@@ -1,36 +1,34 @@
 package by.bsu.group1.panda.model;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "PP_TICKETS")
+@Table(name = "pp_tickets")
 public class Ticket implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ticket_id")
     private long id;
+    @Basic
+    @Column(name = "ticket_key", unique = true)
     private String ticketKey;
     @ManyToOne
-    @Column(name="project_id")
+    @JoinColumn(name="project_id")
     private Project project;
     private User assignee;
     private String name;
+    @Temporal(TemporalType.DATE)
+    @Column(name = "due_date")
     private Date dueDate;
     @Basic
-    @Column(name = "ticket_status")
+    @Column(name = "ticket_status_id")
     private long ticketStatus; // migrate to enum
     @Basic
-    @Column(name = "ticket_type")
+    @Column(name = "ticket_type_id")
     private long ticketType; // --//--
     private String description;
 

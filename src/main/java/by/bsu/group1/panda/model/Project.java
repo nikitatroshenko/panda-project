@@ -5,14 +5,18 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
+@Table(name = "pp_projects")
 public class Project implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "project_id")
     private long id;
     @ManyToOne
     @JoinColumn(name = "manager")
     private User manager;
+    @Basic
+    @Column(name = "project_key", unique = true)
     private String projectKey;
     private String description;
 

@@ -5,16 +5,15 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "PP_USERS",
-        catalog = "PANDA_PROJECT",
-        uniqueConstraints = {
-            @UniqueConstraint(columnNames = {"username"})
-        })
+@Table(name = "pp_users")
 public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private long id;
+    @Basic
+    @Column(unique = true)
     private String username;
     private long role; // TODO: migrate to enum
     @ManyToOne

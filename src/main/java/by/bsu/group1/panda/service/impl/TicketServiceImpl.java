@@ -40,7 +40,6 @@ public class TicketServiceImpl implements TicketService {
         ticketRepository.delete(id);
     }
 
-    @Required
     public void setTicketRepository(TicketRepository ticketRepository) {
         this.ticketRepository = ticketRepository;
     }
