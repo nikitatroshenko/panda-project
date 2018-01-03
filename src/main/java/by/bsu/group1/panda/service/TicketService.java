@@ -9,4 +9,10 @@ public interface TicketService {
     Collection<Ticket> getAllTickets();
 
     Ticket getTicketById(long id);
+
+    Ticket createTicket();
+
+    void updateTicket(Ticket ticket);
+
+    void deleteTicket(long id);
 }
