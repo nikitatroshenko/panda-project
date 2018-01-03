@@ -3,7 +3,15 @@ server:
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: ${JDBC_DATABASE_URL:}
+    url: ${DATABASE_URL:}
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        temp:
+          use_jdbc_metadata_defaults: false
 panda:
   message:
     stub: Sorry, this application is running but still does nothing :(
