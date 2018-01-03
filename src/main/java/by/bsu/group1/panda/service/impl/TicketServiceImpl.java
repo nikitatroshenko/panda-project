@@ -4,7 +4,6 @@ import by.bsu.group1.panda.dao.TicketRepository;
 import by.bsu.group1.panda.model.Ticket;
 import by.bsu.group1.panda.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
