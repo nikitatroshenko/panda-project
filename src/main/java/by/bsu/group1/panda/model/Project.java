@@ -1,11 +1,14 @@
 package by.bsu.group1.panda.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "pp_projects")
+@JsonIgnoreProperties("")
 public class Project implements Serializable {
 
     @Id
@@ -16,7 +19,7 @@ public class Project implements Serializable {
     @JoinColumn(name = "manager")
     private User manager;
     @Basic
-    @Column(name = "project_key", unique = true)
+    @Column(name = "project_key", unique = true, nullable = false)
     private String projectKey;
     private String description;
 

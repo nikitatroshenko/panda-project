@@ -10,7 +10,7 @@ public interface TicketService {
 
     Ticket getTicketById(long id);
 
-    Ticket createTicket();
+    Ticket createTicket(String projectKey, Ticket ticket);
 
     void updateTicket(Ticket ticket);
 

@@ -1,5 +1,7 @@
 package by.bsu.group1.panda.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -7,6 +9,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "pp_tickets")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Ticket implements Serializable {
 
     @Id

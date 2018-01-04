@@ -3,56 +3,63 @@ package by.bsu.group1.panda.web;
 import by.bsu.group1.panda.model.Ticket;
 import by.bsu.group1.panda.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.ws.rs.core.Response;
+import javax.persistence.EntityNotFoundException;
 import java.net.URI;
 import java.util.Collection;
 
 @RestController
-@RequestMapping("/tickets")
+//@RequestMapping("/tickets")
 public class TicketEndpoint {
 
     @Autowired
     private TicketService ticketService;
 
-    @GetMapping("")
+    @GetMapping("/tickets")
     public Collection<Ticket> getAllTickets() {
         return ticketService.getAllTickets();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/tickets/{id}")
     public Ticket getTicket(@PathVariable("id") long id) {
         return ticketService.getTicketById(id);
     }
 
-    @PostMapping("")
-    public Response createTicket() {
-        Ticket ticket = ticketService.createTicket();
+    @PostMapping("/{projectKey}/tickets")
+    public ResponseEntity<?> createTicket(@PathVariable String projectKey, @RequestBody Ticket ticket) {
+        ticket = ticketService.createTicket(projectKey, ticket);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(ticket.getId())
+                .toUri();
 
-        return Response.created(URI.create("/tickets/" + ticket.getId())).build();
+        return ResponseEntity.created(location).build();
     }
 
-    @PutMapping("/{id}")
-    public Response updateTicket(@PathVariable("id") long id, @RequestBody Ticket ticket) {
+    @PutMapping("/tickets/{id}")
+    public ResponseEntity<?> updateTicket(@PathVariable("id") long id, @RequestBody Ticket ticket) {
         if (ticket.getId() != id) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
-        if (ticketService.getTicketById(id) == null) {
-            Ticket createdTicket = ticketService.createTicket();
-
-            ticket.setId(createdTicket.getId());
-            ticketService.updateTicket(ticket);
-            return Response.created(URI.create("/tickets/" + ticket.getId())).build();
+            return ResponseEntity.badRequest().build();
         }
 
         ticketService.updateTicket(ticket);
-        return Response.ok().build();
+        return ResponseEntity.ok(ticket);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/tickets/{id}")
     public void deleteTicket(@PathVariable("id") long id) {
         ticketService.deleteTicket(id);
+    }
+
+    @ExceptionHandler({EntityNotFoundException.class})
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public void notFound() {
+        // nothing to d
     }
 
     public void setTicketService(TicketService ticketService) {

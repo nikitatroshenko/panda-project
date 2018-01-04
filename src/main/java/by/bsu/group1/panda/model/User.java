@@ -1,11 +1,14 @@
 package by.bsu.group1.panda.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "pp_users")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User implements Serializable {
 
     @Id
@@ -16,9 +19,9 @@ public class User implements Serializable {
     @Column(unique = true)
     private String username;
     private long role; // TODO: migrate to enum
-    @ManyToOne
-    @JoinColumn(name = "project_id")
-    private Project project;
+//    @ManyToOne
+//    @JoinColumn(name = "project_id")
+//    private Project project;
 
     public long getId() {
         return id;
@@ -36,21 +39,21 @@ public class User implements Serializable {
         this.username = username;
     }
 
-    public long getRole() {
-        return role;
+    public Role getRole() {
+        return Role.forId(role);
     }
 
-    public void setRole(long role) {
-        this.role = role;
+    public void setRole(Role role) {
+        this.role = role.getId();
     }
 
-    public Project getProject() {
-        return project;
-    }
-
-    public void setProject(Project project) {
-        this.project = project;
-    }
+//    public Project getProject() {
+//        return project;
+//    }
+//
+//    public void setProject(Project project) {
+//        this.project = project;
+//    }
 
     @Override
     public boolean equals(Object o) {
@@ -72,7 +75,7 @@ public class User implements Serializable {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", role=" + role +
-                ", project=" + project +
+//                ", project=" + project +
                 '}';
     }
 }
