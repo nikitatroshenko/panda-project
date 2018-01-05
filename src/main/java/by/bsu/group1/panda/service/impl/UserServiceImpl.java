@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,17 +30,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUser(long id, User user) {
-        User repositoryOne = userRepository.getOne(id);
+        User persistent = userRepository.getOne(id);
 
         validateUserParams(user);
 
         if (user.getRole() != null) {
-            repositoryOne.setRole(user.getRole());
+            persistent.setRole(user.getRole());
         }
         if (user.getPassword() != null) {
-            repositoryOne.setPassword(user.getPassword());
+            persistent.setPassword(user.getPassword());
         }
-        return userRepository.save(repositoryOne);
+        return userRepository.save(persistent);
     }
 
     private void validateUserParams(User user) {
@@ -52,5 +53,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserById(long id) {
         return userRepository.getOne(id);
+    }
+
+    @Override
+    public Collection<User> getAll() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public void deleteUserById(long id) {
+        userRepository.delete(id);
     }
 }

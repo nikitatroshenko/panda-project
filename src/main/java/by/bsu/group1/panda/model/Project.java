@@ -8,7 +8,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "pp_projects")
-@JsonIgnoreProperties("")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Project implements Serializable {
 
     @Id

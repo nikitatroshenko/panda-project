@@ -15,21 +15,20 @@ import java.util.Collection;
 
 @RestController
 @RequestMapping("/users")
+@CrossOrigin
 public class UserEndpoint {
 
-    @Autowired
-    private UserRepository userRepository;
     @Autowired
     private UserService userService;
 
     @GetMapping("")
     public Collection<User> getAllUsers() {
-        return userRepository.findAll();
+        return userService.getAll();
     }
 
     @GetMapping("/{id}")
     public User getUserById(@PathVariable long id) {
-        return userRepository.getOne(id);
+        return userService.getUserById(id);
     }
 
     @PostMapping("")
@@ -49,18 +48,13 @@ public class UserEndpoint {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateUser(@PathVariable long id, @RequestBody User user) {
-        if (user.getId() != id) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        user = userService.updateUser(id, user);
-        return ResponseEntity.ok(user);
+    public User updateUser(@PathVariable long id, @RequestBody User user) {
+        return userService.updateUser(id, user);
     }
 
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable long id) {
-        userRepository.delete(id);
+        userService.deleteUserById(id);
     }
 
     @ExceptionHandler({EntityNotFoundException.class})

@@ -56,8 +56,25 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public void updateTicket(Ticket ticket) {
-        ticketRepository.save(ticket);
+    public Ticket updateTicket(long id, Ticket ticket) {
+        Ticket persistent = ticketRepository.getOne(id);
+
+        if (ticket.getAssignee() != null) {
+            persistent.setAssignee(ticket.getAssignee());
+        }
+        if (ticket.getDescription() != null) {
+            persistent.setDescription(ticket.getDescription());
+        }
+        if (ticket.getDueDate() != null) {
+            persistent.setDueDate(ticket.getDueDate());
+        }
+        if (ticket.getName() != null && !ticket.getName().isEmpty()) {
+            persistent.setName(ticket.getName());
+        }
+        persistent.setTicketStatus(ticket.getTicketStatus());
+        persistent.setTicketType(ticket.getTicketType());
+
+        return ticketRepository.save(persistent);
     }
 
     @Override

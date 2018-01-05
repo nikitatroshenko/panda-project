@@ -13,6 +13,7 @@ import java.net.URI;
 import java.util.Collection;
 
 @RestController
+@CrossOrigin
 public class ProjectEndpoint {
 
     @Autowired
@@ -43,9 +44,8 @@ public class ProjectEndpoint {
     }
 
     @PutMapping("/projects/{id}")
-    public ResponseEntity<?> updateProject(@PathVariable long id, @RequestBody Project project) {
-        project = projectService.updateProject(id, project);
-        return ResponseEntity.ok(project);
+    public Project updateProject(@PathVariable long id, @RequestBody Project project) {
+        return projectService.updateProject(id, project);
     }
 
     @DeleteMapping("/projects/{id}")

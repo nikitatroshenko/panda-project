@@ -13,6 +13,7 @@ import java.net.URI;
 import java.util.Collection;
 
 @RestController
+@CrossOrigin
 public class TicketEndpoint {
 
     @Autowired
@@ -21,7 +22,7 @@ public class TicketEndpoint {
     @GetMapping("/tickets")
     public Collection<Ticket> getAllTickets(@RequestParam(required = false) String reporter) {
         if (reporter != null) {
-            ticketService.getTicketsByReporter(reporter);
+            return ticketService.getTicketsByReporter(reporter);
         }
 
         return ticketService.getAllTickets();
@@ -46,11 +47,7 @@ public class TicketEndpoint {
 
     @PutMapping("/tickets/{id}")
     public ResponseEntity<?> updateTicket(@PathVariable("id") long id, @RequestBody Ticket ticket) {
-        if (ticket.getId() != id) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        ticketService.updateTicket(ticket);
+        ticketService.updateTicket(id, ticket);
         return ResponseEntity.ok(ticket);
     }
 
