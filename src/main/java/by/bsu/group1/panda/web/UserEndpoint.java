@@ -50,14 +50,11 @@ public class UserEndpoint {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateUser(@PathVariable long id, @RequestBody User user) {
-        if (!userRepository.exists(id)) {
-            return ResponseEntity.notFound().build();
-        }
         if (user.getId() != id) {
             return ResponseEntity.badRequest().build();
         }
 
-        user = userRepository.save(user);
+        user = userService.updateUser(id, user);
         return ResponseEntity.ok(user);
     }
 
@@ -72,7 +69,9 @@ public class UserEndpoint {
         // nothing to do
     }
 
-    public void setUserRepository(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    @ExceptionHandler({IllegalArgumentException.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public void wrongParams() {
+        // nothing to do yet
     }
 }
