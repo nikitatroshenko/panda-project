@@ -22,7 +22,12 @@ public class Ticket implements Serializable {
     @ManyToOne
     @JoinColumn(name="project_id")
     private Project project;
+    @ManyToOne
+    @JoinColumn(name = "assignee")
     private User assignee;
+    @ManyToOne
+    @JoinColumn(name = "reporter")
+    private User reporter;
     private String name;
     @Temporal(TemporalType.DATE)
     @Column(name = "due_date")
@@ -134,5 +139,13 @@ public class Ticket implements Serializable {
                 ", ticketType=" + ticketType +
                 ", description='" + description + '\'' +
                 '}';
+    }
+
+    public User getReporter() {
+        return reporter;
+    }
+
+    public void setReporter(User reporter) {
+        this.reporter = reporter;
     }
 }

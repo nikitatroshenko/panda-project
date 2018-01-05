@@ -10,9 +10,11 @@ public interface TicketService {
 
     Ticket getTicketById(long id);
 
-    Ticket createTicket(String projectKey, Ticket ticket);
+    Ticket createTicket(String username, String projectKey, Ticket ticket);
 
     void updateTicket(Ticket ticket);
 
     void deleteTicket(long id);
+
+    Collection<Ticket> getTicketsByReporter(String reporter);
 }

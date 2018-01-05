@@ -1,5 +1,6 @@
 package by.bsu.group1.panda.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -18,7 +19,9 @@ public class User implements Serializable {
     @Basic
     @Column(unique = true)
     private String username;
-    private long role; // TODO: migrate to enum
+    private long role;
+    @JsonIgnore
+    private String password;
 //    @ManyToOne
 //    @JoinColumn(name = "project_id")
 //    private Project project;
@@ -77,5 +80,13 @@ public class User implements Serializable {
                 ", role=" + role +
 //                ", project=" + project +
                 '}';
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

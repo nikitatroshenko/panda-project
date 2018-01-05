@@ -13,14 +13,17 @@ import java.net.URI;
 import java.util.Collection;
 
 @RestController
-//@RequestMapping("/tickets")
 public class TicketEndpoint {
 
     @Autowired
     private TicketService ticketService;
 
     @GetMapping("/tickets")
-    public Collection<Ticket> getAllTickets() {
+    public Collection<Ticket> getAllTickets(@RequestParam(required = false) String reporter) {
+        if (reporter != null) {
+            ticketService.getTicketsByReporter(reporter);
+        }
+
         return ticketService.getAllTickets();
     }
 
@@ -29,9 +32,9 @@ public class TicketEndpoint {
         return ticketService.getTicketById(id);
     }
 
-    @PostMapping("/{projectKey}/tickets")
-    public ResponseEntity<?> createTicket(@PathVariable String projectKey, @RequestBody Ticket ticket) {
-        ticket = ticketService.createTicket(projectKey, ticket);
+    @PostMapping("/{username}/{projectKey}/tickets")
+    public ResponseEntity<?> createTicket(@PathVariable String username, @PathVariable String projectKey, @RequestBody Ticket ticket) {
+        ticket = ticketService.createTicket(username, projectKey, ticket);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")

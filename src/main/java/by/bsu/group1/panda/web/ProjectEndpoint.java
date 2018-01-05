@@ -1,6 +1,5 @@
 package by.bsu.group1.panda.web;
 
-import by.bsu.group1.panda.dao.ProjectRepository;
 import by.bsu.group1.panda.model.Project;
 import by.bsu.group1.panda.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,18 +13,14 @@ import java.net.URI;
 import java.util.Collection;
 
 @RestController
-//@RequestMapping("/projects")
 public class ProjectEndpoint {
-
-    @Autowired
-    private ProjectRepository projectRepository;
 
     @Autowired
     private ProjectService projectService;
 
     @GetMapping("/projects")
     public Collection<Project> getAllProjects() {
-        return projectRepository.findAll();
+        return projectService.getAllProjects();
     }
 
     @GetMapping("/projects/{id}")
@@ -62,9 +57,5 @@ public class ProjectEndpoint {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public void notFound() {
         // nothing to do
-    }
-
-    public void setProjectRepository(ProjectRepository projectRepository) {
-        this.projectRepository = projectRepository;
     }
 }

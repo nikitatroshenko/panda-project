@@ -1,10 +1,14 @@
 package by.bsu.group1.panda.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 import java.util.Arrays;
 
 public enum Role {
     DEVELOPER(1, "Developer"),
-    MANAGER(2, "Manager");
+    MANAGER(2, "Manager"),
+    UNKNOWN(-1, "Unknown");
 
     private final long id;
     private final String name;
@@ -18,6 +22,7 @@ public enum Role {
         return id;
     }
 
+    @JsonValue
     public String getName() {
         return name;
     }
@@ -26,13 +31,14 @@ public enum Role {
         return Arrays.stream(values())
                 .filter(role -> role.getId() == id)
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("Illegal role id '" + id + '\''));
+                .orElse(UNKNOWN);
     }
 
+    @JsonCreator
     public static Role forName(String name) {
         return Arrays.stream(values())
                 .filter(role -> role.getName().equals(name))
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("Illegal role name '" + name + '\''));
+                .orElse(UNKNOWN);
     }
 }
