@@ -9,9 +9,13 @@ import './App.css';
 
 class App extends Component {
   render() {
+    const id = window.localStorage.getItem('id');
     return (
       <Router>
         <div className="layout">
+          {(!id && (window.location.pathname !== '/signup' && window.location.pathname !== '/login')) && (
+            <Redirect to="/login" />
+          )}
           <Switch>
             <Route exact path="/" component={Project} />
             <Route path="/login" component={Login} />
